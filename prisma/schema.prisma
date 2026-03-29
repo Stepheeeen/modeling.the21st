@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String    @unique
+  password      String
+  role          String    @default("admin")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Model {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  stageName    String?
+  slug         String   @unique
+  profileImage String
+  gallery      String[]
+  bio          String
+  height       String
+  measurements Json?
+  location     String
+  specialties  String[]
+  categories   String[]
+  experience   String
+  availability String
+  featured     Boolean  @default(false)
+  gender       String
+  socialLinks  Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Booking {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  modelId       String?  @db.ObjectId
+  modelName     String?
+  clientName    String
+  clientEmail   String
+  clientPhone   String?
+  clientCompany String
+  eventType     String
+  date          DateTime
+  endDate       DateTime?
+  location      String
+  budget        String
+  notes         String?
+  status        String   @default("pending")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Application {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName       String
+  lastName        String
+  email           String
+  phone           String
+  dateOfBirth     String?
+  gender          String
+  height          String
+  measurements    Json?
+  location        String
+  experience      String
+  categories      String[]
+  instagramHandle String
+  photos          String[]
+  about           String
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Editorial {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String
+  coverImage  String
+  category    String
+  featured    Boolean  @default(false)
+  author      String
+  publishedAt DateTime @default(now())
+  modelIds    String[] @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Settings {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  agencyName   String   @default("THE 21ST")
+  contactEmail String   @default("admin@the21st.com")
+  phone        String?
+  address      String?
+  socialLinks  Json?    // { instagram, tiktok, twitter, linkedin }
+  footerText   String?
+  maintenance  Boolean  @default(false)
+  updatedAt    DateTime @updatedAt
+}
+
+model Photoshoot {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  modelId      String   @db.ObjectId
+  date         DateTime
+  time         String
+  location     String
+  photographer String?
+  stylist      String?
+  status       String   @default("scheduled") // scheduled, in-progress, completed, cancelled
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
