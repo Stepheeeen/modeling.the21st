@@ -38,6 +38,7 @@ export async function createBooking(prevState: any, formData: FormData) {
     const booking = await prisma.booking.create({
       data: {
         ...validatedFields.data,
+        modelId: validatedFields.data.modelId || undefined,
         date: new Date(validatedFields.data.date),
         endDate: validatedFields.data.endDate ? new Date(validatedFields.data.endDate) : null,
       },

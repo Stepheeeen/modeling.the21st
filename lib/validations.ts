@@ -31,18 +31,18 @@ export const ModelSchema = z.object({
 
 // Bookings
 export const BookingSchema = z.object({
-  modelId: z.string().optional(), // Null if recommending talent
-  modelName: z.string().optional(),
+  modelId: z.string().optional().nullable(),
+  modelName: z.string().optional().nullable(),
   clientName: z.string().min(2, 'Name is required'),
   clientEmail: z.string().email('Invalid email address'),
-  clientPhone: z.string().optional(),
+  clientPhone: z.string().optional().nullable(),
   clientCompany: z.string().min(2, 'Company name is required'),
   eventType: z.string().min(2, 'Event type is required'),
   date: z.string().min(1, 'Date is required'),
-  endDate: z.string().optional(),
+  endDate: z.string().optional().nullable(),
   location: z.string().min(2, 'Location is required'),
   budget: z.string().min(1, 'Budget range is required'),
-  notes: z.string().optional(),
+  notes: z.string().optional().nullable(),
 });
 
 // Applications
