@@ -1,7 +1,7 @@
 'use client'
 
 import { signIn } from 'next-auth/react'
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Loader2, AlertCircle } from 'lucide-react'
 import { toast } from '@/hooks/use-toast'
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') || '/admin'
@@ -58,6 +58,70 @@ export default function LoginPage() {
   }
 
   return (
+    <Card className="border-border bg-card shadow-sm">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-xl font-serif">Admin Login</CardTitle>
+        <CardDescription className="font-sans">
+          Enter your credentials to access the talent dashboard.
+        </CardDescription>
+      </CardHeader>
+      <form onSubmit={handleSubmit}>
+        <CardContent className="space-y-4">
+          {error && (
+            <div className="bg-destructive/10 text-destructive p-3 text-sm flex items-center gap-2 rounded-md font-sans">
+              <AlertCircle className="h-4 w-4" />
+              {error}
+            </div>
+          )}
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="admin@the21st.com"
+              required
+              className="font-sans"
+              disabled={loading}
+            />
+          </div>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Password</Label>
+            </div>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              required
+              className="font-sans"
+              disabled={loading}
+            />
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button
+            type="submit"
+            className="w-full font-sans tracking-wide mt-8"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Authenticating...
+              </>
+            ) : (
+              'Sign In'
+            )}
+          </Button>
+        </CardFooter>
+      </form>
+    </Card>
+  )
+}
+
+export default function LoginPage() {
+  return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
@@ -69,65 +133,18 @@ export default function LoginPage() {
           </h1>
         </div>
 
-        <Card className="border-border bg-card shadow-sm">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-xl font-serif">Admin Login</CardTitle>
-            <CardDescription className="font-sans">
-              Enter your credentials to access the talent dashboard.
-            </CardDescription>
-          </CardHeader>
-          <form onSubmit={handleSubmit}>
-            <CardContent className="space-y-4">
-              {error && (
-                <div className="bg-destructive/10 text-destructive p-3 text-sm flex items-center gap-2 rounded-md font-sans">
-                  <AlertCircle className="h-4 w-4" />
-                  {error}
-                </div>
-              )}
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="admin@the21st.com"
-                  required
-                  className="font-sans"
-                  disabled={loading}
-                />
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                </div>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  className="font-sans"
-                  disabled={loading}
-                />
-              </div>
+        <Suspense fallback={
+          <Card className="border-border bg-card shadow-sm opacity-50">
+            <CardHeader className="space-y-1">
+              <CardTitle className="text-xl font-serif">Loading...</CardTitle>
+            </CardHeader>
+            <CardContent className="h-40 flex items-center justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
             </CardContent>
-            <CardFooter>
-              <Button
-                type="submit"
-                className="w-full font-sans tracking-wide mt-8"
-                disabled={loading}
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Authenticating...
-                  </>
-                ) : (
-                  'Sign In'
-                )}
-              </Button>
-            </CardFooter>
-          </form>
-        </Card>
+          </Card>
+        }>
+          <LoginForm />
+        </Suspense>
 
         <p className="text-center text-xs text-muted-foreground font-sans">
           &copy; {new Date().getFullYear()} The 21st Creative House. All rights reserved.

@@ -24,21 +24,13 @@ function rateLimiter(request: NextRequest) {
   return userData.count <= MAX_REQUESTS_PER_WINDOW;
 }
 
+// Next.js 16 "proxy" convention
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
   const isApiRoute = nextUrl.pathname.startsWith("/api");
   const isPublicRoute = !nextUrl.pathname.startsWith("/admin");
   const isLoginPage = nextUrl.pathname === "/login";
-
-  /* 
-  // Rate Limiting for public API routes or public endpoints
-  if (isApiRoute && isPublicRoute) {
-    if (!rateLimiter(req as any)) {
-      return new NextResponse("Too Many Requests", { status: 429 });
-    }
-  }
-  */
 
   // Admin Route Protection
   if (!isLoggedIn && !isPublicRoute) {
