@@ -1,4 +1,5 @@
-import { auth } from "@/auth";
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -24,7 +25,9 @@ function rateLimiter(request: NextRequest) {
   return userData.count <= MAX_REQUESTS_PER_WINDOW;
 }
 
-// Next.js 16 "proxy" convention
+// Next.js 16 "proxy" convention - Initialized for the Edge runtime
+const { auth } = NextAuth(authConfig);
+
 export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
