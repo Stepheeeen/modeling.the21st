@@ -21,6 +21,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { Plus, Calendar, MapPin, Camera } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export default async function PhotoshootsPage() {
   const [photoshoots, models] = await Promise.all([
     getPhotoshoots(),

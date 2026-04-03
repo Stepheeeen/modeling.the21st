@@ -8,6 +8,8 @@ import { CTASection } from '@/components/cta-section'
 import { getFeaturedModels } from '@/lib/actions/model'
 import { getEditorials } from '@/lib/actions/editorial'
 
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
   const [featuredModels, editorials] = await Promise.all([
     getFeaturedModels(),

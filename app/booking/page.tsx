@@ -4,6 +4,8 @@ import { Footer } from '@/components/footer'
 import { getModels } from '@/lib/actions/model'
 import { BookingForm } from '@/components/booking-form'
 
+export const dynamic = 'force-dynamic'
+
 export default async function BookingPage() {
   const models = await getModels()
   

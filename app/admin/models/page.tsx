@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { Plus, Search, Filter } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminModelsPage() {
   const models = await getAllModels()
 

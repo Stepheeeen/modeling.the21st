@@ -1,6 +1,8 @@
 import { DashboardClient } from '@/components/admin/dashboard-client'
 import { getAdminStats, getRecentBookings, getRecentApplications, getAdminFeaturedModels } from '@/lib/actions/admin'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminOverviewPage() {
   const [stats, recentBookings, recentApplications, featuredModels] = await Promise.all([
     getAdminStats(),

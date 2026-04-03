@@ -8,6 +8,8 @@ import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
 import { getEditorialBySlug } from '@/lib/actions/editorial'
 
+export const dynamic = 'force-dynamic'
+
 interface Props {
   params: Promise<{ slug: string }>
 }

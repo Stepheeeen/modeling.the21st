@@ -3,6 +3,8 @@ import { Footer } from '@/components/footer'
 import { ModelsList } from '@/components/models-list'
 import { getModels } from '@/lib/actions/model'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ModelsPage() {
   const models = await getModels()
 

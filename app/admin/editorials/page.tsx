@@ -6,6 +6,8 @@ import { Plus, Search, Filter } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { format } from 'date-fns'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminEditorialsPage() {
   const editorials = await getAllEditorials()
 

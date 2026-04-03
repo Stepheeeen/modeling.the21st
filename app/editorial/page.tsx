@@ -9,6 +9,8 @@ export const metadata = {
   description: 'Stay updated with the latest campaigns, industry news, and model spotlights from THE 21ST.',
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function EditorialPage() {
   const editorials = await getEditorials()
 

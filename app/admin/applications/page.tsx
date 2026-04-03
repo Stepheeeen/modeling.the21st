@@ -6,6 +6,8 @@ import { Search, Filter, Mail, Phone, Instagram } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import Image from 'next/image'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminApplicationsPage() {
   const applications = await getAllApplications()
 

@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Search, Filter, Calendar as CalendarIcon, MapPin } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminBookingsPage() {
   const bookings = await getAllBookings()
 

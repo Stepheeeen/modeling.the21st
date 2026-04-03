@@ -7,6 +7,8 @@ import { Footer } from '@/components/footer'
 import { ModelProfileClient } from '@/components/model-profile-client'
 import { getModelBySlug, getModels } from '@/lib/actions/model'
 
+export const dynamic = 'force-dynamic'
+
 interface Props {
   params: Promise<{ slug: string }>
 }
