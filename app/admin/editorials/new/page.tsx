@@ -2,6 +2,8 @@ import { EditorialForm } from '@/components/admin/editorial-form'
 import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default function NewEditorialPage() {
   return (
     <div className="p-6 lg:p-8">

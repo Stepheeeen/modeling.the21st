@@ -34,6 +34,20 @@ export function CloudinaryUpload({
   }
 
   const values = Array.isArray(value) ? value : value ? [value] : []
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+
+  if (!cloudName) {
+    return (
+      <div className="p-4 border-2 border-dashed border-destructive/50 bg-destructive/5 rounded-md text-center">
+        <p className="text-sm text-destructive font-medium font-sans">
+          Cloudinary Configuration Missing
+        </p>
+        <p className="text-xs text-muted-foreground font-sans mt-1">
+          Please set NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME in your environment.
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-4 w-full">
@@ -68,9 +82,8 @@ export function CloudinaryUpload({
           maxFiles: multiple ? 10 : 1,
           sources: ['local', 'url', 'camera'],
           cropping: true,
-          showSkipCrop: false,
+          showSkipCropButton: false,
           croppingAspectRatio: 3/4, // Portrait for models
-          croppingDefaultSelectionPointer: true,
           styles: {
             palette: {
               window: "#FFFFFF",
