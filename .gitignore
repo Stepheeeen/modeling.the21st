@@ -13,11 +13,7 @@ next.user-config.*
 .pnp.js
 
 # Environment variables
-.env
-.env.local
-.env.development
-.env.test.local
-.env.production.local
+.env*
 
 # testing
 /coverage

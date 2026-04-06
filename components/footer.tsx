@@ -146,6 +146,8 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-xs text-primary-foreground/50 font-sans">
               &copy; {new Date().getFullYear()} THE 21ST Modeling. All rights reserved.
+              <span className="mx-2">|</span>
+              Website by <a href="https://flairtechlabs.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary-foreground/70 transition-colors underline underline-offset-4 decoration-primary-foreground/20">Flair Technologies Ltd</a>
             </p>
             <div className="flex gap-6">
               <Link

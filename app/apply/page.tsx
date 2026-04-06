@@ -212,8 +212,14 @@ export default function ApplyPage() {
                       <CloudinaryUpload 
                         multiple
                         value={formData.photoPreviews}
-                        onChange={(urls: string | string[]) => setFormData({ ...formData, photoPreviews: Array.isArray(urls) ? urls : [urls] })}
-                        onRemove={(url: string) => setFormData({ ...formData, photoPreviews: formData.photoPreviews.filter(p => p !== url) })}
+                        onChange={(urls: string | string[]) => setFormData(prev => ({ 
+                          ...prev, 
+                          photoPreviews: Array.isArray(urls) ? urls : [urls] 
+                        }))}
+                        onRemove={(url: string) => setFormData(prev => ({ 
+                          ...prev, 
+                          photoPreviews: prev.photoPreviews.filter(p => p !== url) 
+                        }))}
                       />
                     </div>
                     <div className="space-y-2"><Label htmlFor="about">About You</Label><Textarea name="about" id="about" value={formData.about} onChange={(e) => setFormData({ ...formData, about: e.target.value })} /></div>

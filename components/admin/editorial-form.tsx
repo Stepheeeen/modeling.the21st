@@ -51,6 +51,7 @@ export function EditorialForm({ initialData }: EditorialFormProps) {
       featured: false,
       author: 'T21 Editorial Team',
       modelIds: [],
+      gallery: [],
     },
   })
 
@@ -190,6 +191,28 @@ export function EditorialForm({ initialData }: EditorialFormProps) {
                     onRemove={() => field.onChange('')}
                   />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="space-y-4">
+          <FormLabel>Gallery (Optional)</FormLabel>
+          <FormField
+            control={form.control}
+            name="gallery"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <CloudinaryUpload 
+                    multiple
+                    value={field.value}
+                    onChange={field.onChange}
+                    onRemove={(url) => field.onChange(field.value.filter((val: string) => val !== url))}
+                  />
+                </FormControl>
+                <FormDescription>Add multiple images for the editorial gallery.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

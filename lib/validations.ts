@@ -72,6 +72,7 @@ export const EditorialSchema = z.object({
   excerpt: z.string().min(10, 'Excerpt must be at least 10 characters'),
   content: z.string().min(50, 'Content must be at least 50 characters'),
   coverImage: z.string().url('Invalid cover image URL'),
+  gallery: z.array(z.string().url('Invalid gallery image URL')).default([]),
   category: z.enum(['campaign', 'editorial', 'news', 'spotlight']),
   featured: z.boolean().default(false),
   author: z.string().min(2, 'Author name is required'),

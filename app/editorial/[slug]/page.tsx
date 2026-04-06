@@ -105,11 +105,40 @@ export default async function EditorialDetailPage({ params }: Props) {
             </div>
 
             {/* Main Content */}
-            <div className="prose prose-lg prose-stone dark:prose-invert max-w-none font-sans">
+            <div className="prose prose-lg prose-stone dark:prose-invert max-w-none font-sans mb-24">
               {article.content.split('\n').map((para, i) => (
                 para ? <p key={i}>{para}</p> : <br key={i} />
               ))}
             </div>
+
+            {/* Gallery Section */}
+            {article.gallery && article.gallery.length > 0 && (
+              <div className="space-y-12">
+                <div className="flex items-center gap-4">
+                  <div className="h-px bg-border flex-1" />
+                  <h2 className="text-2xl font-serif italic text-muted-foreground">Gallery Results</h2>
+                  <div className="h-px bg-border flex-1" />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {article.gallery.map((image, index) => (
+                    <div 
+                      key={index} 
+                      className={`relative overflow-hidden bg-muted shadow-lg hover:shadow-xl transition-shadow ${
+                        index % 3 === 0 ? 'md:col-span-2 aspect-[16/10]' : 'aspect-[4/5]'
+                      }`}
+                    >
+                      <Image
+                        src={image}
+                        alt={`${article.title} - Galllery Image ${index + 1}`}
+                        fill
+                        className="object-cover hover:scale-105 transition-transform duration-700"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Footer CTA */}
             <footer className="mt-24 pt-16 border-t border-border text-center">

@@ -4,7 +4,7 @@ import { CldUploadWidget } from 'next-cloudinary'
 import { Button } from '@/components/ui/button'
 import { ImagePlus, Trash2, CheckCircle2 } from 'lucide-react'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 interface CloudinaryUploadProps {
   value: string | string[]
@@ -20,13 +20,19 @@ export function CloudinaryUpload({
   multiple = false
 }: CloudinaryUploadProps) {
   const [isUploaded, setIsUploaded] = useState(false)
+  
+  // Use a ref to keep track of values during multiple uploads to avoid race conditions
+  // because props may not update fast enough between consecutive onUpload calls
+  const valuesRef = useRef<string[]>(Array.isArray(value) ? value : value ? [value] : [])
 
   const onUpload = (result: any) => {
     const url = result.info.secure_url
     if (multiple) {
-      const currentValues = Array.isArray(value) ? value : []
-      onChange([...currentValues, url])
+      const newValues = [...valuesRef.current, url]
+      valuesRef.current = newValues
+      onChange(newValues)
     } else {
+      valuesRef.current = [url]
       onChange(url)
     }
     setIsUploaded(true)
@@ -34,6 +40,14 @@ export function CloudinaryUpload({
   }
 
   const values = Array.isArray(value) ? value : value ? [value] : []
+  
+  // Keep ref in sync with prop updates (e.g. from deletion or initial load)
+  useEffect(() => {
+    if (JSON.stringify(values) !== JSON.stringify(valuesRef.current)) {
+      valuesRef.current = values
+    }
+  }, [value, values])
+
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
 
   if (!cloudName) {

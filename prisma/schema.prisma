@@ -86,6 +86,7 @@ model Editorial {
   excerpt     String
   content     String
   coverImage  String
+  gallery     String[]
   category    String
   featured    Boolean  @default(false)
   author      String

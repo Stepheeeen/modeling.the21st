@@ -76,7 +76,7 @@
 }
 
 @theme inline {
-  --font-sans: 'Playfair Display', 'Inter', serif;
+  --font-sans: var(--font-sharp-grotesk), sans-serif;
   --font-serif: 'Playfair Display', serif;
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-background: var(--background);
