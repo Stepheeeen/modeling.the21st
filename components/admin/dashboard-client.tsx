@@ -26,6 +26,8 @@ export function DashboardClient({
   recentApplications, 
   featuredModels 
 }: DashboardClientProps) {
+  const isError = (stats as any).error;
+
   const metrics = [
     { 
       title: 'Active Models', 
@@ -69,6 +71,22 @@ export function DashboardClient({
           Welcome back! Here&apos;s what&apos;s happening at The 21st.
         </p>
       </motion.div>
+
+      {isError && (
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="mb-8 p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg flex items-center gap-4 text-amber-600 dark:text-amber-500"
+        >
+          <div className="p-2 bg-amber-500/10 rounded-full">
+            <TrendingUp className="h-5 w-5" />
+          </div>
+          <div className="flex-1">
+            <p className="font-sans font-medium text-sm">Database Connection Issue</p>
+            <p className="font-sans text-xs opacity-80">Some data could not be retrieved. Please check your Vercel Environment Variables.</p>
+          </div>
+        </motion.div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {metrics.map((metric, index) => (
@@ -133,19 +151,25 @@ export function DashboardClient({
               </Link>
             </div>
             <div className="divide-y divide-border">
-              {recentApplications.map((app) => (
-                <div key={app.id} className="p-4 flex items-center gap-4">
-                  <div className="flex-1 min-w-0">
-                    <p className="font-sans text-sm truncate">
-                      {app.firstName} {app.lastName}
-                    </p>
-                    <p className="text-xs text-muted-foreground font-sans">
-                      {app.location}
-                    </p>
-                  </div>
-                  <StatusBadge status={app.status} />
+              {recentApplications.length === 0 ? (
+                <div className="p-4 text-center text-muted-foreground font-sans text-sm">
+                  No new applications
                 </div>
-              ))}
+              ) : (
+                recentApplications.map((app) => (
+                  <div key={app.id} className="p-4 flex items-center gap-4">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-sans text-sm truncate">
+                        {app.firstName} {app.lastName}
+                      </p>
+                      <p className="text-xs text-muted-foreground font-sans">
+                        {app.location}
+                      </p>
+                    </div>
+                    <StatusBadge status={app.status} />
+                  </div>
+                ))
+              )}
             </div>
           </motion.div>
 
@@ -164,22 +188,30 @@ export function DashboardClient({
                 </Button>
               </Link>
             </div>
-            <div className="grid grid-cols-2 gap-2 p-4">
-              {featuredModels.map((model) => (
-                <div key={model.id} className="aspect-[3/4] relative overflow-hidden bg-muted">
-                  <Image
-                    src={model.profileImage}
-                    alt={model.name}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/60 to-transparent">
-                    <p className="text-[10px] text-white font-sans truncate">
-                      {model.name}
-                    </p>
-                  </div>
+            <div className="p-4">
+              {featuredModels.length === 0 ? (
+                <div className="text-center text-muted-foreground font-sans text-sm py-4">
+                  No featured models
                 </div>
-              ))}
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  {featuredModels.map((model) => (
+                    <div key={model.id} className="aspect-[3/4] relative overflow-hidden bg-muted">
+                      <Image
+                        src={model.profileImage}
+                        alt={model.name}
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/60 to-transparent">
+                        <p className="text-[10px] text-white font-sans truncate">
+                          {model.name}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </motion.div>
         </div>

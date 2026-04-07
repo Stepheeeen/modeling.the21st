@@ -17,35 +17,56 @@ async function checkAdmin() {
 export async function getAdminStats() {
   await checkAdmin()
 
-  const [modelCount, pendingBookings, pendingApplications] = await Promise.all([
-    prisma.model.count(),
-    prisma.booking.count({ where: { status: 'pending' } }),
-    prisma.application.count({ where: { status: 'pending' } }),
-  ])
+  try {
+    const [modelCount, pendingBookings, pendingApplications] = await Promise.all([
+      prisma.model.count(),
+      prisma.booking.count({ where: { status: 'pending' } }),
+      prisma.application.count({ where: { status: 'pending' } }),
+    ])
 
-  return {
-    modelCount,
-    pendingBookings,
-    pendingApplications,
-    // Revenue is simulated as we don't have a payments table yet
-    revenue: 42500, 
+    return {
+      modelCount,
+      pendingBookings,
+      pendingApplications,
+      // Revenue is simulated as we don't have a payments table yet
+      revenue: 42500, 
+    }
+  } catch (error) {
+    console.error('Failed to fetch admin stats:', error)
+    return {
+      modelCount: 0,
+      pendingBookings: 0,
+      pendingApplications: 0,
+      revenue: 0,
+      error: true
+    }
   }
 }
 
 export async function getRecentBookings(limit = 5) {
   await checkAdmin()
-  return prisma.booking.findMany({
-    take: limit,
-    orderBy: { createdAt: 'desc' },
-  })
+  try {
+    return await prisma.booking.findMany({
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+    })
+  } catch (error) {
+    console.error('Failed to fetch recent bookings:', error)
+    return []
+  }
 }
 
 export async function getRecentApplications(limit = 5) {
   await checkAdmin()
-  return prisma.application.findMany({
-    take: limit,
-    orderBy: { createdAt: 'desc' },
-  })
+  try {
+    return await prisma.application.findMany({
+      take: limit,
+      orderBy: { createdAt: 'desc' },
+    })
+  } catch (error) {
+    console.error('Failed to fetch recent applications:', error)
+    return []
+  }
 }
 
 export async function getAllBookings() {
@@ -71,10 +92,15 @@ export async function getAllModels() {
 
 export async function getAdminFeaturedModels(limit = 4) {
   await checkAdmin()
-  return prisma.model.findMany({
-    where: { featured: true },
-    take: limit,
-  })
+  try {
+    return await prisma.model.findMany({
+      where: { featured: true },
+      take: limit,
+    })
+  } catch (error) {
+    console.error('Failed to fetch featured models (admin view):', error)
+    return []
+  }
 }
 
 // Model CRUD
